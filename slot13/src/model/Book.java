@@ -9,12 +9,12 @@ public class Book {
 
     public Book(){}
 
-    public Book(int id, String name, String author, int quantity) {
+    public Book(int id, String name, String author, int quantity,boolean borrowed) {
         this.id = id;
         this.name = name;
         this.author = author;
         this.quantity = quantity;
-        this.borrowed = false;
+        this.borrowed = borrowed;
     }
 
     public int getId() {
@@ -49,7 +49,7 @@ public class Book {
         this.quantity = quantity;
     }
 
-    public boolean isBorrowed() {
+    public boolean getBorrowed() {
         return borrowed;
     }
 

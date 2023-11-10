@@ -37,14 +37,15 @@ public class Service {
     public void addBook(Book book)throws SQLException{
         Connection connection = getConnection();
         PreparedStatement preparedStatement = getConnection().prepareStatement(
-                "insert into book(id,name,quantity,borrow) values(?,?,?)"
+                "insert into book(name,author,quantity) values(?,?,?)"
         );
-        preparedStatement.setInt(1,book.getId());
-        preparedStatement.setString(2, book.getName());
+//        preparedStatement.setInt(1,book.getId());
+        preparedStatement.setString(1, book.getName());
+        preparedStatement.setString(2, book.getAuthor());
         preparedStatement.setInt(3,book.getQuantity());
         int check = preparedStatement.executeUpdate();
-        close(connection);
         close(preparedStatement);
+        close(connection);
     }
     public Book searchById(int id)throws SQLException{
         Book book = new Book();
@@ -67,7 +68,7 @@ public class Service {
     public Book searchByName(String name)throws SQLException{
         Book book = new Book();
         Connection connection = getConnection();
-        PreparedStatement preparedStatement = connection.prepareStatement("select * from book where id = ?");
+        PreparedStatement preparedStatement = connection.prepareStatement("select * from book where name = ?");
         preparedStatement.setString(1,name);
         ResultSet rs = preparedStatement.executeQuery();
         while (rs.next()){
@@ -83,7 +84,7 @@ public class Service {
         return book;
     }
 
-    public List<Book> getAllbBook() throws SQLException {
+    public List<Book> getAllBook() throws SQLException {
        List<Book> books = new ArrayList<>();
        Connection connection = getConnection();
        PreparedStatement preparedStatement = connection.prepareStatement("select * from book");
@@ -97,13 +98,24 @@ public class Service {
            book.setBorrowed(rs.getBoolean("Borrowed"));
            books.add(book);
        }
+        close(preparedStatement);
+       close(connection);
        return books;
     }
-    public void updateStatusBorrow(int ticketId,boolean isReturned) throws SQLException {
+    public void updateStatusBorrow(int bookId, boolean newBorrowedStatus) throws SQLException {
         Connection connection = getConnection();
         PreparedStatement preparedStatement = connection.prepareStatement(
-                "update ticket set is_returned = ? where ticket_id like = ?  ");
-        preparedStatement.setBoolean(1,isReturned);
-        preparedStatement.setInt(2,ticketId);
+                "UPDATE book SET borrowed = ? WHERE id = ?");
+        preparedStatement.setBoolean(1,newBorrowedStatus);
+        preparedStatement.setInt(2,bookId);
+        int rowsAffected = preparedStatement.executeUpdate();
+
+        if (rowsAffected > 0) {
+            System.out.println("Update Successfully !");
+        } else {
+            System.out.println("Not Found Book Have ID =" + bookId);
+        }
+        close(preparedStatement);
+        close(connection);
     }
 }

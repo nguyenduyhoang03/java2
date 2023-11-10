@@ -25,14 +25,19 @@ public class View {
             switch (choice){
                 case 1:
                     controller.addBook();
+                    break;
                 case 2:
                     controller.searchById();
+                    break;
                 case 3:
                     controller.searchByName();
+                    break;
                 case 4:
                     controller.updateStatusBorrow();
+                    break;
                 case 5:
                     controller.getAllBook();
+                    break;
                 case 6:
                     System.exit(0);
                     break;

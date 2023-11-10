@@ -12,9 +12,6 @@ public class Controller {
 
     public void addBook()throws SQLException{
         Book book = new Book();
-        System.out.println("Enter ID: ");
-        book.setId(sc.nextInt());
-        sc.nextLine();
         System.out.println("Enter Name: ");
         book.setName(sc.nextLine());
         System.out.println("Enter Author: ");
@@ -37,13 +34,13 @@ public class Controller {
         System.out.println(book);
     }
     public void getAllBook()throws SQLException{
-        System.out.println(managerLibrary.getAllbBook());
+        System.out.println(managerLibrary.getAllBook());
     }
     public void updateStatusBorrow()throws SQLException{
-        System.out.println("Enter ticketID: ");
-        int ticketID = sc.nextInt();
-        System.out.println("Is Returned ?: ");
-        boolean isReturned = sc.nextBoolean();
-        managerLibrary.updateStatusBorrow(ticketID,isReturned);
+        System.out.println("Enter Book ID: ");
+        int bookId = sc.nextInt();
+        System.out.println("Enter New Status: ");
+        boolean newStatus = sc.nextBoolean();
+        managerLibrary.updateStatusBorrow(bookId, newStatus);
     }
 }
